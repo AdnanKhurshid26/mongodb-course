@@ -1,0 +1,35 @@
+use companyData
+switched to db companyData
+companyData> db.companies.insertOne({name:"flipitmoney", isStartup : true,employeeCount:20,employeeNames:["Adnan","Bitan","Mohiuddin","Swarnali"],founded: new Date(), insertedAt
+insertedAt: new Timestamp()})
+{
+  acknowledged: true,
+  insertedId: ObjectId("648086dd92d1798a3f772cc3")
+}
+companyData> db.companyData.find()
+
+companyData> db.companies.find()
+[
+  {
+    _id: ObjectId("648086dd92d1798a3f772cc3"),
+    name: 'flipitmoney',
+    isStartup: true,
+    employeeCount: 20,
+    employeeNames: [ 'Adnan', 'Bitan', 'Mohiuddin', 'Swarnali' ],
+    founded: ISODate("2023-06-07T13:32:13.716Z"),
+    insertedAt: Timestamp({ t: 1686144733, i: 1 })
+  }
+]
+companyData> db.companies.find().pretty()
+[
+  {
+    _id: ObjectId("648086dd92d1798a3f772cc3"),
+    name: 'flipitmoney',
+    isStartup: true,
+    employeeCount: 20,
+    employeeNames: [ 'Adnan', 'Bitan', 'Mohiuddin', 'Swarnali' ],
+    founded: ISODate("2023-06-07T13:32:13.716Z"),
+    insertedAt: Timestamp({ t: 1686144733, i: 1 })
+  }
+]
+companyData>

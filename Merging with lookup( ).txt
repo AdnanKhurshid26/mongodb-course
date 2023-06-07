@@ -1,0 +1,146 @@
+ use bookshop
+switched to db bookshop
+bookshop> db.customers.insertMany({name:"Adnan",books:['id1','id3']},{name:"Sumanshu",books:['id2']})
+bookshop> db.customers.insertMany({name:"Adnan",books:['id1','id3']},{name:"Sumanshu",books:['id2']})
+MongoInvalidArgumentError: Argument "docs" must be an array of documents
+bookshop> db.customers.insertOne({name:"Adnan",books:['id1','id3']})
+{
+  acknowledged: true,
+  insertedId: ObjectId("648093b192d1798a3f772cc4")
+}
+bookshop> db.customers.insertOne({name:"Sumanshu",books:['id2']})
+{
+  acknowledged: true,
+  insertedId: ObjectId("648093c492d1798a3f772cc5")
+}
+bookshop> db.customers.find()
+[
+  {
+    _id: ObjectId("648093b192d1798a3f772cc4"),
+    name: 'Adnan',
+    books: [ 'id1', 'id3' ]
+  },
+  {
+    _id: ObjectId("648093c492d1798a3f772cc5"),
+    name: 'Sumanshu',
+    books: [ 'id2' ]
+  }
+]
+bookshop> db.books.insertMany([{id:'id1',name:"Rich Dad Poor Dad"},{id:'id2',name:"American Psycho"},{id:'id3',name:"Prisoner Of Azkaban"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("6480944192d1798a3f772cc6"),
+    '1': ObjectId("6480944192d1798a3f772cc7"),
+    '2': ObjectId("6480944192d1798a3f772cc8")
+  }
+}
+bookshop> db.books.find()
+[
+  {
+    _id: ObjectId("6480944192d1798a3f772cc6"),
+    id: 'id1',
+    name: 'Rich Dad Poor Dad'
+  },
+  {
+    _id: ObjectId("6480944192d1798a3f772cc7"),
+    id: 'id2',
+    name: 'American Psycho'
+  },
+  {
+    _id: ObjectId("6480944192d1798a3f772cc8"),
+    id: 'id3',
+    name: 'Prisoner Of Azkaban'
+  }
+]
+bookshop> db.customers.aggregate([])
+[
+  {
+    _id: ObjectId("648093b192d1798a3f772cc4"),
+    name: 'Adnan',
+    books: [ 'id1', 'id3' ]
+  },
+  {
+    _id: ObjectId("648093c492d1798a3f772cc5"),
+    name: 'Sumanshu',
+    books: [ 'id2' ]
+  }
+]
+bookshop> db.customers.aggregate([{$lookup:{from:"books",localField:"books",foreignField:"id", as: "Bought books"}}])
+[
+  {
+    _id: ObjectId("648093b192d1798a3f772cc4"),
+    name: 'Adnan',
+    books: [ 'id1', 'id3' ],
+    'Bought books': [
+      {
+        _id: ObjectId("6480944192d1798a3f772cc6"),
+        id: 'id1',
+        name: 'Rich Dad Poor Dad'
+      },
+      {
+        _id: ObjectId("6480944192d1798a3f772cc8"),
+        id: 'id3',
+        name: 'Prisoner Of Azkaban'
+      }
+    ]
+  },
+  {
+    _id: ObjectId("648093c492d1798a3f772cc5"),
+    name: 'Sumanshu',
+    books: [ 'id2' ],
+    'Bought books': [
+      {
+        _id: ObjectId("6480944192d1798a3f772cc7"),
+        id: 'id2',
+        name: 'American Psycho'
+      }
+    ]
+  }
+]
+bookshop> db.customers.aggregate([{$lookup:{from:"books",localField:"books",foreignField:"id", as: "Bought books"}}]).pretty
+[Function: pretty] {
+  returnType: 'this',
+  serverVersions: [ '0.0.0', '999.999.999' ],
+  apiVersions: [ 0, Infinity ],
+  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
+  returnsPromise: false,
+  deprecated: false,
+  platforms: [ 'Compass', 'Browser', 'CLI' ],
+  isDirectShellCommand: false,
+  acceptsRawInput: false,
+  shellCommandCompleter: undefined,
+  help: [Function (anonymous)] Help
+}
+bookshop> db.customers.aggregate([{$lookup:{from:"books",localField:"books",foreignField:"id", as: "Bought books"}}]).pretty()
+[
+  {
+    _id: ObjectId("648093b192d1798a3f772cc4"),
+    name: 'Adnan',
+    books: [ 'id1', 'id3' ],
+    'Bought books': [
+      {
+        _id: ObjectId("6480944192d1798a3f772cc6"),
+        id: 'id1',
+        name: 'Rich Dad Poor Dad'
+      },
+      {
+        _id: ObjectId("6480944192d1798a3f772cc8"),
+        id: 'id3',
+        name: 'Prisoner Of Azkaban'
+      }
+    ]
+  },
+  {
+    _id: ObjectId("648093c492d1798a3f772cc5"),
+    name: 'Sumanshu',
+    books: [ 'id2' ],
+    'Bought books': [
+      {
+        _id: ObjectId("6480944192d1798a3f772cc7"),
+        id: 'id2',
+        name: 'American Psycho'
+      }
+    ]
+  }
+]

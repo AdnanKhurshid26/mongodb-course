@@ -1,0 +1,80 @@
+test> show dbs
+admin   40.00 KiB
+config  12.00 KiB
+local   40.00 KiB
+test> use shop
+switched to db shop
+shop> db.products.insertOne({name : "A book", price: 200})
+{
+  acknowledged: true,
+  insertedId: ObjectId("648051d492d1798a3f772cc2")
+}
+shop> db.products.find()
+[
+  {
+    _id: ObjectId("648051d492d1798a3f772cc2"),
+    name: 'A book',
+    price: 200
+  }
+]
+shop> C:\Program Files\MongoDB\mongosh-1.9.1-win32-x64\bin
+Uncaught:
+SyntaxError: Expecting Unicode escape sequence \uXXXX. (1:3)
+
+> 1 | C:\Program Files\MongoDB\mongosh-1.9.1-win32-x64\bin
+    |    ^
+  2 |
+
+shop> db.products.updateOne({name:"A book"},{$set: {author:"Adnan"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+shop> db.products.find()
+[
+  {
+    _id: ObjectId("648051d492d1798a3f772cc2"),
+    name: 'A book',
+    price: 200,
+    author: 'Adnan'
+  }
+]
+shop> db.products.updateOne({name:"Adnan"},{$set:{hobbies:["Cricket","Guitar"]}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+shop> db.products.find()
+[
+  {
+    _id: ObjectId("648051d492d1798a3f772cc2"),
+    name: 'A book',
+    price: 200,
+    author: 'Adnan'
+  }
+]
+shop> db.products.updateOne({author:"Adnan"},{$set:{hobbies:["Cricket","Guitar"]}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+shop> db.products.find()
+[
+  {
+    _id: ObjectId("648051d492d1798a3f772cc2"),
+    name: 'A book',
+    price: 200,
+    author: 'Adnan',
+    hobbies: [ 'Cricket', 'Guitar' ]
+  }
+]
+shop>
